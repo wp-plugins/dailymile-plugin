@@ -15,6 +15,7 @@ This plugin adds the dailymile training log widget and dailymile badge widget to
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Register your profile at http://www.dailymile.com if you haven't already.
 4. Under Settings->dailymile options and add your dailymile username.
+5  Shortcode [dailymile_log] - options width(the width) default 300, float(left, right, none) default left
 
 == Frequently Asked Questions ==
 
