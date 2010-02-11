@@ -3,7 +3,7 @@ Contributors: Ryan Meier
 Tags: running, training, dailymile
 Requires at least: 2.7
 Tested up to: 2.7
-Stable tag: 1.0
+Stable tag: 0.3
 
 == Description ==
 
@@ -21,5 +21,8 @@ This plugin adds the dailymile training log widget and dailymile badge widget to
 
 == Changelog ==
 
-= 1.0 =
+= 0.2 =
 * Initial dailymile plugin.
+
+= 0.3 =
+* dailymile training log shortcode added
