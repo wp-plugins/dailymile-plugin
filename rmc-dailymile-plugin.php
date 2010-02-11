@@ -99,8 +99,28 @@ function rmc_dailymile_log_widget_init(){
     }
 }
 
-function rmc_dailymile_log(){
+function rmc_dailymile_log($atts){
+    extract(shortcode_atts(array(
+        'width' => '175',
+        'float' => 'left'
+    ), $atts));
+
+    $width = (is_numeric($width)) ? (int)$width : 300;
+
+    $float = ($float == 'left') ? 'left' : 'right';
+    switch($float){
+        case 'left':
+        case 'right':
+        case 'none':
+            break;
+        default:
+            $float = 'left';
+    }
+    
     $dailymile_options = dailymile_plugin_validate(get_option('dailymile_plugin_options'));
-    return '<script src="http://www.dailymile.com/people/' . $dailymile_options['dailymile_profile'] . '/training/widget.js" type="text/javascript"></script><noscript><a href="http://www.dailymile.com/people/' . $dailymile_options['dailymile_profile'] . '?utm_medium=api&utm_source=training_widget" title="Running Training Log"><img alt="Running Training Log" src="http://www.dailymile.com/images/badges/dailymile_badge_180x60_orange.gif" style="border: 0;" /></a></noscript>';
+    $out = '<div style="width:' . $width . 'px;float:' . $float . ';">';
+    $out .= '<script src="http://www.dailymile.com/people/' . $dailymile_options['dailymile_profile'] . '/training/widget.js" type="text/javascript"></script><noscript><a href="http://www.dailymile.com/people/' . $dailymile_options['dailymile_profile'] . '?utm_medium=api&utm_source=training_widget" title="Running Training Log"><img alt="Running Training Log" src="http://www.dailymile.com/images/badges/dailymile_badge_180x60_orange.gif" style="border: 0;" /></a></noscript>';
+    $out .= '</div>';
+    return $out;
 }
 ?>
