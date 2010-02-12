@@ -6,14 +6,14 @@
 //  Exit the file if the WP_Widget class doesnt exist
 if( !class_exists('WP_Widget')){ exit; }
 
-class rmc_dailymile_log_widget extends WP_Widget{
+class dailymile_log_widget extends WP_Widget{
 
-    function rmc_dailymile_log_widget(){
+    function dailymile_log_widget(){
         $widget_ops = array(
-            'classname' => 'rmc_dailymile_log_widget',
+            'classname' => 'dailymile_log_widget',
             'description' => 'Display your dailymile trainning log'
         );
-        $this->WP_Widget('rmc_dailymile_log_widget', 'dailymile Log Widget', $widget_ops);
+        $this->WP_Widget('dailymile_log_widget', 'dailymile Log Widget', $widget_ops);
     }
 
     // widget front-end output

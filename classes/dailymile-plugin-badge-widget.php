@@ -7,14 +7,14 @@
 //  Exit the file if the WP_Widget class doesnt exist
 if( !class_exists('WP_Widget')){ exit; }
 
-class rmc_dailymile_profile_badge_widget extends WP_Widget{
+class dailymile_profile_badge_widget extends WP_Widget{
 
-    function rmc_dailymile_profile_badge_widget(){
+    function dailymile_profile_badge_widget(){
         $widget_ops = array(
-            'classname' => 'rmc_dailymile_profile_badge_widget',
+            'classname' => 'dailymile_profile_badge_widget',
             'description' => 'Display your dailymile profile badge'
         );
-        $this->WP_Widget('rmc_dailymile_profile_badge_widget', 'dailymile profile badge widget', $widget_ops);
+        $this->WP_Widget('dailymile_profile_badge_widget', 'dailymile profile badge widget', $widget_ops);
     }
 
     // widget front-end output
