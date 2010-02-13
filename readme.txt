@@ -3,7 +3,7 @@ Contributors: Ryan Meier
 Tags: running, training, dailymile
 Requires at least: 2.7
 Tested up to: 2.7
-Stable tag: 0.3.1
+Stable tag: 0.3.2
 
 == Description ==
 
@@ -15,11 +15,13 @@ This plugin adds the dailymile training log widget and dailymile badge widget to
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Register your profile at http://www.dailymile.com if you haven't already.
 4. Under Settings->dailymile options and add your dailymile username.
-5.  Shortcode [dailymile_log] - options width(the width) default 300, float(left, right, none) default left
 
 == Frequently Asked Questions ==
 
 == Changelog ==
+
+= 0.3.2 =
+* fixed small bug
 
 = 0.3.1 =
 * fixed naming error
@@ -29,4 +31,3 @@ This plugin adds the dailymile training log widget and dailymile badge widget to
 
 = 0.2 =
 * Initial dailymile plugin.
-

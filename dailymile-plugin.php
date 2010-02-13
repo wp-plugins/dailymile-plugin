@@ -4,7 +4,7 @@ Plugin Name: dailymile training log Plugin
 Plugin URI: http://wordpress.org/#
 Description: Adds dailymile widgets to your blog
 Author: Ryan Meier
-Version: 0.3.1
+Version: 0.3.2
 Author URI: http://www.runmapcode.com
 
 This program is free software; you can redistribute it and/or modify
@@ -29,8 +29,6 @@ add_action('admin_menu','dailymile_plugin_options_menu');
 add_action('admin_init','dailymile_register_settings');
 //	add dailymile widget
 add_action('widgets_init','dailymile_log_widget_init');
-//  register short code for log
-add_shortcode('dailymile_log', 'dailymile_log_shortcode');
 
 /*
  *      Setup plugin parts
@@ -82,9 +80,14 @@ function dailymile_plugin_validate($input){
  */
 
 //  include the dailymile training log widget
-include_once(WP_PLUGIN_DIR . '/dailymile-plugin/classes/dailymile-plugin-log-widget.php');
+if( file_exists(WP_PLUGIN_DIR . '/dailymile-plugin/classes/dailymile-plugin-log-widget.php')){
+    include_once(WP_PLUGIN_DIR . '/dailymile-plugin/classes/dailymile-plugin-log-widget.php');
+}
+
 //  include the dailymile badge widget
-include_once(WP_PLUGIN_DIR . '/dailymile-plugin/classes/dailymile-plugin-badge-widget.php');
+if( file_exists(WP_PLUGIN_DIR . '/dailymile-plugin/classes/dailymile-plugin-badge-widget.php') ){
+    include_once(WP_PLUGIN_DIR . '/dailymile-plugin/classes/dailymile-plugin-badge-widget.php');
+}
 
 //  reigster widget init function
 function dailymile_log_widget_init(){
@@ -97,30 +100,5 @@ function dailymile_log_widget_init(){
     if(class_exists('dailymile_profile_badge_widget')){
         register_widget('dailymile_profile_badge_widget');
     }
-}
-
-function dailymile_log_shortcode($atts){
-    extract(shortcode_atts(array(
-        'width' => '175',
-        'float' => 'left'
-    ), $atts));
-
-    $width = (is_numeric($width)) ? (int)$width : 300;
-
-    $float = ($float == 'left') ? 'left' : 'right';
-    switch($float){
-        case 'left':
-        case 'right':
-        case 'none':
-            break;
-        default:
-            $float = 'left';
-    }
-    
-    $dailymile_options = dailymile_plugin_validate(get_option('dailymile_plugin_options'));
-    $out = '<div style="width:' . $width . 'px;float:' . $float . ';">';
-    $out .= '<script src="http://www.dailymile.com/people/' . $dailymile_options['dailymile_profile'] . '/training/widget.js" type="text/javascript"></script><noscript><a href="http://www.dailymile.com/people/' . $dailymile_options['dailymile_profile'] . '?utm_medium=api&utm_source=training_widget" title="Running Training Log"><img alt="Running Training Log" src="http://www.dailymile.com/images/badges/dailymile_badge_180x60_orange.gif" style="border: 0;" /></a></noscript>';
-    $out .= '</div>';
-    return $out;
 }
 ?>
