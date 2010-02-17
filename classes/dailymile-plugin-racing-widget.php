@@ -1,19 +1,19 @@
 <?php
 /*
-*	RunMapCode dailymile training log widget
+*	dailymile racing widget
 */
 
 //  Exit the file if the WP_Widget class doesnt exist
 if( !class_exists('WP_Widget')){ exit; }
 
-class dailymile_log_widget extends WP_Widget{
+class dailymile_racing_widget extends WP_Widget{
 
-    function dailymile_log_widget(){
+    function dailymile_racing_widget(){
         $widget_ops = array(
-            'classname' => 'dailymile_log_widget',
-            'description' => 'Display your dailymile trainning log'
+            'classname' => 'dailymile_racing_widget',
+            'description' => 'Display your dailymile racing widget'
         );
-        $this->WP_Widget('dailymile_log_widget', 'Dailymile Log Widget', $widget_ops);
+        $this->WP_Widget('dailymile_racing_widget', 'Dailymile Racing Widget', $widget_ops);
     }
 
     // widget front-end output
@@ -21,15 +21,15 @@ class dailymile_log_widget extends WP_Widget{
         extract($args, EXTR_SKIP);
 
         $title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
-        $dailymile_options = dailymile_plugin_validate(get_option('dailymile_plugin_options'));
+        $dailymile_options = get_option('dailymile_plugin_options');
         $dailymile_profile_name = esc_html($dailymile_options['dailymile_profile']);
         if(!$dailymile_profile_name){ return false; }
         
         echo $before_widget;
         if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 
-        echo '<script src="http://www.dailymile.com/people/' . $dailymile_profile_name . '/training/widget.js" type="text/javascript"></script><noscript><a href="http://www.dailymile.com/people/' . $dailymile_profile_name . '?utm_medium=api&utm_source=training_widget" title="Running Training Log"><img alt="Running Training Log" src="http://www.dailymile.com/images/badges/dailymile_badge_180x60_orange.gif" style="border: 0;" /></a></noscript>';
-
+        echo '<script src="http://www.dailymile.com/people/' . $dailymile_profile_name . '/events/widget.js" type="text/javascript"></script><noscript><a href="http://www.dailymile.com/people/' . $dailymile_profile_name . '" title="Running Training Log"><img alt="Running Training Log" src="http://www.dailymile.com/images/badges/dailymile_badge_180x60_orange.gif" style="border: 0;" /></a></noscript>';
+        
         echo $after_widget;
     }
 

@@ -9,12 +9,15 @@ if( !class_exists('WP_Widget')){ exit; }
 
 class dailymile_profile_badge_widget extends WP_Widget{
 
+    private $dailymile_plugin_img_url = '';
+
     function dailymile_profile_badge_widget(){
         $widget_ops = array(
             'classname' => 'dailymile_profile_badge_widget',
             'description' => 'Display your dailymile profile badge'
         );
-        $this->WP_Widget('dailymile_profile_badge_widget', 'dailymile profile badge widget', $widget_ops);
+        $this->WP_Widget('dailymile_profile_badge_widget', 'Dailymile Profile Badge', $widget_ops);
+        $this->dailymile_plugin_img_url = WP_PLUGIN_URL . '/dailymile-plugin/images/';
     }
 
     // widget front-end output
@@ -22,12 +25,14 @@ class dailymile_profile_badge_widget extends WP_Widget{
         extract($args, EXTR_SKIP);
 
         $title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
-        $dailymile_options = dailymile_plugin_validate(get_option('dailymile_plugin_options'));
+        $dailymile_options = get_option('dailymile_plugin_options');
+        $dailymile_profile_name = esc_html($dailymile_options['dailymile_profile']);
+        if(!$dailymile_profile_name){ return false; }
 
         echo $before_widget;
 
         if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
-        echo '<a href="http://www.dailymile.com/people/' . $dailymile_options['dailymile_profile'] . '?utm_medium=api&utm_source=training_widget" title="Running Training Log"><img src="http://www.dailymile.com/images/badges/dailymile_badge_180x60_' . $instance['badgecolor'] . '.gif" width="180" height="60" alt="Running Training Log" border="0" /></a>';
+        echo '<a href="http://www.dailymile.com/people/' . $dailymile_profile_name . '?utm_medium=api&utm_source=training_widget" title="Running Training Log"><img src="http://www.dailymile.com/images/badges/dailymile_badge_143x56_' . $instance['badgecolor'] . '.png" width="143" height="56" alt="Running Training Log" border="0" /></a>';
 
         echo $after_widget;
     }
@@ -36,7 +41,21 @@ class dailymile_profile_badge_widget extends WP_Widget{
     function update($new_instance, $old_instance){
         $instance = $old_instance;
         $instance['title'] = wp_filter_nohtml_kses($new_instance['title']);
-        $instance['badgecolor'] = ($new_instance['badgecolor'] == 'orange') ? 'orange' : 'grey';
+
+        switch($new_instance['badgecolor']){
+            case 'orange':
+                $instance['badgecolor'] = 'orange';
+                break;
+            case 'blue':
+                $instance['badgecolor'] = 'blue';
+                break;
+            case 'grey':
+                $instance['badgecolor'] = 'grey';
+                break;
+            default:
+                $instance['badgecolor'] = 'orange';
+        }
+        
         return $instance;
     }
 
@@ -48,19 +67,33 @@ class dailymile_profile_badge_widget extends WP_Widget{
         );
         $instance = wp_parse_args( (array) $instance, $defaults );
         $badgecolor = $instance['badgecolor'];
-        ?>
+        $dailymile_options = get_option('dailymile_plugin_options');
+        $dailymile_profile_name = esc_html($dailymile_options['dailymile_profile']);
+        if(!$dailymile_profile_name){ ?>
+            <p style="background:#ffdede;color:#ff0000;padding:5px;font-size:0.9em;">
+                Please set your dailymile username.
+            </p>
+        <?php } ?>
         <!-- title -->
         <p>
             <label for="<?php echo $this->get_field_id('title'); ?>">Title:</label><br />
-            <input type="text" class="widefat" name="<?php echo $this->get_field_name('title'); ?>" id="<?php echo $this->get_field_id('title'); ?>" value="<?php echo $instance['title']; ?>" />
+            <input type="text" class="widefat" name="<?php echo $this->get_field_name('title'); ?>" id="<?php echo $this->get_field_id('title'); ?>" value="<?php esc_html_e($instance['title']); ?>" />
         </p>
-		<!-- badge color radio group -->
-        <p>
-            <input type="radio" <?php if($badgecolor == 'orange'){ echo 'checked="checked"'; } ?> id="badgeorange" name="<?php echo $this->get_field_name('badgecolor'); ?>" value="orange" />
-            <label for="badgeorange">Orange Badge</label><br />
-            <input type="radio" <?php if($badgecolor == 'grey'){ echo 'checked="checked"'; } ?> id="badgegrey" name="<?php echo $this->get_field_name('badgecolor'); ?>" value="grey" />
-            <label for="badgegrey">Grey Badge</label><br />
-        </p>
+        <!-- badge color radio group -->
+        <table>
+            <tr>
+                <td><input type="radio" <?php if($badgecolor == 'orange'){ echo 'checked="checked"'; } ?> id="badgeorange" name="<?php echo $this->get_field_name('badgecolor'); ?>" value="orange" /></td>
+                <td><img src="<?php echo $this->dailymile_plugin_img_url ?>dailymile_badge_143x56_orange.png" width="143" height="56" alt="Dailymile orange badge" /></td>
+            </tr>
+            <tr>
+                <td><input type="radio" <?php if($badgecolor == 'blue'){ echo 'checked="checked"'; } ?> id="badgeblue" name="<?php echo $this->get_field_name('badgecolor'); ?>" value="blue" /></td>
+                <td><img src="<?php echo $this->dailymile_plugin_img_url ?>dailymile_badge_143x56_blue.png" width="143" height="56" alt="Dailymile blue badge" /></td>
+            </tr>
+            <tr>
+                <td><input type="radio" <?php if($badgecolor == 'grey'){ echo 'checked="checked"'; } ?> id="badgegrey" name="<?php echo $this->get_field_name('badgecolor'); ?>" value="grey" /></td>
+                <td><img src="<?php echo $this->dailymile_plugin_img_url ?>dailymile_badge_143x56_grey.png" width="143" height="56" alt="Dailymile grey badge" /></td>
+            </tr>
+        </table>
         <?php
     }
 
