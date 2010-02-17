@@ -3,7 +3,7 @@ Contributors: Ryan Meier
 Tags: running, training, dailymile
 Requires at least: 2.8
 Tested up to: 2.8
-Stable tag: 0.4
+Stable tag: 0.5
 
 == Description ==
 
@@ -20,7 +20,7 @@ This plugin adds the dailymile training log widget, dailymile mileage counter wi
 
 == Changelog ==
 
-= 0.4 =
+= 0.5 =
 * added racing widget, mileage counter widget, new badge widgets.  Now uses recently updated widgets by Dailymile.com.
 
 = 0.3.2 =
